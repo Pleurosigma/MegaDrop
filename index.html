@@ -1,0 +1,129 @@
+<html>
+	<head>
+		<script src='shared/jquery.js'></script>
+		<script src='shared/easel.js'></script>
+		
+		<script src='brush/MovementState.js'></script>
+		<script src='brush/Direction.js'></script>
+		<script src='brush/AABoundingBox.js'></script>
+		<script src='brush/BrushEvent.js'></script>
+		<script src='brush/PhysicalGameObject.js'></script>
+		<script src='brush/Actor.js'></script>
+		<script src='brush/Hero.js'></script>
+		<script src='brush/Boundary.js'></script>
+		<script src='brush/Structure.js'></script>
+		<script src='brush/MovingPlatform.js'></script>
+		<script src='brush/MegaManClassic.js'></script>
+		<script src='brush/DropLetter.js'></script>
+		<script src='brush/DropMan.js'></script>
+		<script src='brush/LetterPicker.js'></script>
+		<script src='brush/LetterHandler.js'></script>
+		<script src='shared/speakClient.js'></script>
+		<script src='shared/speakGenerator.js'></script>
+		
+		<script src='brush/testing/MegaDrop.js'></script>
+		<script>
+			var game;
+			init = function(){
+				var stage = new Stage($('#mainstage')[0]);
+				game = new MegaDrop(stage);
+				game.letterdiv = $('#letters');
+				$('#reset').click(function(){
+					game.restart();
+				});
+				$('#start').click(function(){
+					game.restart();
+				});
+				$('#pause').click(function(){
+					game.pause();
+				});
+				$('#setf').click(function(){
+					var f = $('#freq').val();
+					$('#freq').val('');
+					if(!isNaN(f) && !(f >= 1))
+						game.nextFrequency = f;
+				});
+				$('#setr').click(function(){
+					var r = $('#rate').val();
+					$('#rate').val('');
+					if(!isNaN(r) && !(r < 1))
+						game.nextRate = r;
+				});
+				$('#seti').click(function(){
+					game.nextAnswer = $('#answer').val();
+					game.nextQuestion = $('#question').val();
+					$('#answer').val('');
+					$('#question').val('');
+				});
+				$('#setd').click(function(){
+					var val = $('input[name=dif]:checked').val();
+					game.nextDifficulty = val;
+				});
+			}
+			$(init);
+		</script>
+		<style>
+			#mainstage{
+				background-color: #fff;
+				border: 1px solid black;
+				float:left;
+			}
+			
+			#letters{
+				float: left;
+				padding-left: 20px;
+				padding-top: 20px;
+				font-size: 50px;
+				font-family: "Arial";
+			}
+			
+			#game-holder{
+				height: 402px;
+				overflow: hidden;
+			}	
+			
+			#data{
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='game-holder'>
+			<canvas id='mainstage' width='600' height='400'></canvas>
+			<div id='letters'></div>
+		</div>
+		<div id='data'>
+			<div>
+				<button id='start' type='button'>Start</button>
+				<button id='reset' type='button'>Reset</button>
+				<button id='pause' type='button'>(Un)pause</button>
+			</div>
+			<div>
+				<label>Frequency:</label>
+				<input id='freq' type='text' />
+				<button id='setf'>Set</button>
+			</div>
+			<div>
+				<label>Rate:</label>
+				<input id='rate' type='text' />
+				<button id='setr'>Set</button>
+			</div>
+			<div>
+				<label>Difficulty:</label>
+				<input name='dif' type='radio' value='hard'/> Hard
+				<input name='dif' type='radio' value='easy' checked/> Easy
+				<button id='setd'>Set</button>
+			</div>
+			<div>
+				<label>Question:</label>
+				<input id='question' type='text' />
+			</div>
+			<div>
+				<label>Answer:</label>
+				<input id='answer' type='text' />
+				<button id='seti'>Set</button>
+			</div>
+			<div id='audio'></div>
+		</div>
+	</body>
+</html>
